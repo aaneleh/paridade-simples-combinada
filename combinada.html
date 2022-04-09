@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paridade Combinada</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        div{
+            margin: 1em;
+        }
+        table {
+            width: 80%;
+        }
+        tr>td:last-child, tr:last-child{
+            background: rgb(153, 153, 153);
+        }
+        td {
+            border: 1px solid black;
+            width: 1ch;
+            height: 1ch;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="index.html" class="button">Voltar</a>
+    <br>
+    <h1>Paridade combinada</h1>
+    <p>
+        Digite 4 dados cada um com 7 bits cada e calcule então a paridade combinada.
+        Os bits digitados, e as paridades devem aparecer na tela ao final do programa, como uma matriz.
+    </p>
+    <br>
+    <form id="form">
+        <div>
+            <label>Bits 1: </label>
+            <input id="bits_1" type="text">
+        </div>
+        <div>
+            <label>Bits 2: </label>
+            <input id="bits_2" type="text">
+        </div>
+        <div>
+            <label>Bits 3: </label>
+            <input id="bits_3" type="text">
+        </div>
+        <div>
+            <label>Bits 4: </label>
+            <input id="bits_4" type="text">
+        </div>
+
+        <button class="button" onclick=validar()>Calcular paridade</button>
+    </form>
+
+    <table id="matriz"></table>
+    
+    <script>
+        /* VALIDAÇÃO DO FORMULÁRIO */
+        const form = document.getElementById("form");
+        form.addEventListener("submit", function(event){
+            event.preventDefault();
+        });
+        function validar(){
+            const bit_1 = document.getElementById('bits_1').value;
+            const bit_2 = document.getElementById('bits_2').value;
+            const bit_3 = document.getElementById('bits_3').value;
+            const bit_4 = document.getElementById('bits_4').value;
+            if(bit_1 != "" && bit_2 != "" && bits_3 != "" && bits_4 != ""){
+                calcularParidade();
+            } else {
+                alert('Preencha os Bits');
+            }
+        }
+
+        /* PARIDADE COMBINADA */
+        const paridade = document.getElementById('paridade_resultado');
+        const resultado = document.getElementById('bits_digitados');
+        const table = document.getElementById('matriz');
+        function calcularParidade(){
+            var matriz = [];
+            var array = [];
+            var input;
+            var paridade;
+            var soma = 0;
+            var row;
+            var cell;
+            table.innerHTML = "";
+
+            for(var i = 0; i < 4; i++){
+                /* MONTA AS LINHAS */
+                for(var j = 0; j < 7 ; j++){
+                    input = document.getElementById('bits_'+(i+1)).value;
+                    array.push(input.charAt(j));
+                    matriz.push(input.charAt(j));
+                }
+                /* ADICIONA A PARIDADE SIMPLES DAS LINHAS */
+                soma = 0;
+                for(var j = 0; j < 7; j++){
+                    array[j] == "1" ? soma++ : soma+=0;
+                }
+                soma%2==0 ? paridade = "0" : paridade = "1";
+                matriz.push(paridade);
+                array.push(paridade);
+                
+                /* MONTA PARTE DA TABELA */
+                row = document.createElement('tr');
+                for(var j = 0; j < 8; j++){
+                    cell = document.createElement('td');
+                    cell.innerHTML = array[j];
+                    row.appendChild(cell);
+                }
+                table.appendChild(row);
+                array = [];
+            }
+
+            /* ULTIMA LINHA COM PARIDADE DAS COLUNAS */
+            row = document.createElement('tr');
+            //loopa por todas as colunas
+            for(var i = 0; i < 8; i++){
+                //calcula uma coluna
+                soma = 0;
+                for(var j = 0; j < 4 ; j++){
+                    matriz[j*8 + i]== "1" ? soma++ : soma+=0;
+                }
+                soma%2==0 ? paridade = "0" : paridade = "1";
+                matriz.push(paridade);
+                array.push(paridade);
+                //adiciona cada coluna numa table row
+                cell = document.createElement('td');
+                cell.innerHTML = array[i];
+                row.appendChild(cell);
+            }
+            //adicionar a paridade das colunas na tabela
+            table.appendChild(row);
+        }   
+    </script>
+
+</body>
+</html>

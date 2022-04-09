@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paridade Simples</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a href="index.html" class="button">Voltar</a>
+    <br>
+    <h1>Paridade simples</h1>
+    <p>
+        O programa deve perguntar quantos bits serão digitados, e
+        mostrar na tela os bits digitados e a paridade.
+    </p>
+    <br>
+
+    <form id="form">
+        <div>
+            <label for="quantidade">Bits: </label>
+            <input id="bits" type="text" name="bits">
+        </div>
+        <button class="button" onclick=calcularParidade()>Calcular paridade</button>
+    </form>
+
+    <h2 id="bits_digitados"></h2>
+
+    <h2 id="paridade_resultado"></h2>
+
+    <script>
+        const form = document.getElementById("form");
+        form.addEventListener("submit", function(event){
+            event.preventDefault();
+        });
+
+        const paridade = document.getElementById('paridade_resultado');
+        const resultado = document.getElementById('bits_digitados');
+            
+        function calcularParidade(){
+            var bitsdig = "Bits: ";
+            const bits = document.getElementById('bits').value;
+            
+            if(bits != "") {
+                var soma = 0;
+                for(var i = 0; i < bits.length; i++){
+                    if(bits.charAt(i) == "1"){
+                        soma++;
+                    } 
+                    bitsdig += bits.charAt(i);
+                }
+                if(soma%2==0){
+                    bitsdig += "0";
+                    paridade.innerHTML = "A paridade é par (0) (" + soma + "x o nº 1)";
+                    resultado.innerHTML = bitsdig;
+                } else {
+                    bitsdig += "1";
+                    paridade.innerHTML = "A paridade é ímpar (1) (" + soma + "x o nº 1)";
+                    resultado.innerHTML = bitsdig;
+                }
+            } else {
+                alert('Preencha os Bits');
+            }
+        }   
+    </script>
+
+</body>
+</html>
